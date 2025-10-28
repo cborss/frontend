@@ -41,8 +41,12 @@ export default class SpectrumAudio {
     this.squelchThreshold = 0
     this.power = 1
     this.ctcss = false
-     // Remove the element with id startaudio from the DOM
-      
+    // Remove the element with id startaudio from the DOM
+
+    // squelch filter buffers
+    this.squelchBufLen = 3
+    this.squelchBufPos = -1
+    this.squelchBuf = Array(this.squelchBufLen).fill(1e-20);
 
     if (this.audioCtx && this.audioCtx.state == 'running') {
       startaudio = document.getElementById('startaudio')
@@ -315,15 +319,18 @@ export default class SpectrumAudio {
   socketMessage(event) {
     if (event.data instanceof ArrayBuffer) {
       const packet = cbor_decode(new Uint8Array(event.data))
-      const receivedPower = packet.pwr
-      this.power = 0.5 * this.power + 0.5 * receivedPower || 1
-      const dBpower = 20 * Math.log10(Math.sqrt(this.power) / 2)
+      const receivedPower = packet.pwr || 1e-20
+
+      // increment squelch buffer pointer
+      this.squelchBufPos = (this.squelchBufPos + 1) % this.squelchBufLen
+
+      // maximum of the last N power values
+      this.squelchBuf[this.squelchBufPos] = receivedPower
+      this.power = Math.max(...this.squelchBuf)
+      const dBpower = 10 * Math.log10(this.power) - 6
       this.dBPower = dBpower
-      if (this.squelch && dBpower < this.squelchThreshold) {
-        this.squelchMute = true
-      } else {
-        this.squelchMute = false
-      }
+
+      this.squelchMute = (this.squelch && dBpower < this.squelchThreshold)
 
       this.decode(packet.data)
     }
