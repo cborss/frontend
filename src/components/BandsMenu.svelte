@@ -130,7 +130,7 @@
   
   // Other bands
   const otherBands = [
-    { name: 'CB', start: 26965, end: 27405, mode: 'AM' },
+    { name: 'CB', start: 26565, end: 27405, mode: 'FM' },
     { name: 'ISM 6.78', start: 6765, end: 6795, mode: 'USB' },
     { name: 'ISM 13.56', start: 13553, end: 13567, mode: 'USB' },
     { name: 'ISM 27.12', start: 26957, end: 27283, mode: 'USB' }

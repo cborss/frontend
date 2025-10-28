@@ -127,8 +127,8 @@ export default class SpectrumWaterfall {
           ] },
         { name: '11M AM', startFreq: 25670000, endFreq: 26100000, color: 'rgba(199, 12, 193, 0.6)', 
           modes: [{ mode: MODES.AM, startFreq: 25670000, endFreq: 26100000 }] },
-        { name: 'CB', startFreq: 26965000, endFreq: 27405000, color: 'rgba(3, 227, 252, 0.6)',  
-          modes: [{ mode: MODES.AM, startFreq: 26965000, endFreq: 27405000 }] },
+        { name: 'CB', startFreq: 26565000, endFreq: 27405000, color: 'rgba(3, 227, 252, 0.6)',
+          modes: [{ mode: MODES.FM, startFreq: 26565000, endFreq: 27405000 }] },
         { name: '10M HAM', startFreq: 28000000, endFreq: 29700000, color: 'rgba(50, 168, 72, 0.6)', 
           modes: [
             { mode: MODES.CW, startFreq: 28000000, endFreq: 28070000 },
