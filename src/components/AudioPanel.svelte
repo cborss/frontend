@@ -14,7 +14,7 @@
   // Local state
   export let mute = false;
   let volume = 65;
-  let squelchEnable = false;
+  let squelchEnable = true;
   let squelch = -50;
   let power = 0;
   let powerPeak = 0;
@@ -117,8 +117,10 @@
   }
   
   function handleSquelchChange() {
-    squelchEnable = !squelchEnable;
+    squelchEnable = true;
     audio.setSquelch(squelchEnable);
+    squelch = Math.round(audio.getPowerDb()) + 2;
+    audio.setSquelchThreshold(squelch);
   }
   
   function handleSquelchMove() {
